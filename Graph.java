@@ -7,7 +7,7 @@ import java.util.*;
  * 2-7-2015
  *
  * Reads in a graph from a file. Stores into a 2D array and finds the max clique for that graph using
- * the Bron-Kerbosch algorithm.
+ * the recursive backtracking
  */
 public class Graph {
     private int E; //number of edges
