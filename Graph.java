@@ -39,8 +39,8 @@ public class Graph {
     }
 
     public static final void main(String[] args ) {
-        findCliques();
-        IndSet.main(null);
+        //findCliques();
+        //IndSet.main(null);
         CNF.main(null);
     }
 
@@ -97,17 +97,6 @@ public class Graph {
         return "("+V+","+E+") "+ mc +" (size="+mCliqueSize+", "+mCliqueSpeed+" ms)";
     }
 
-    /* for printing the CNF info */
-    public String CNFtoString() {
-        String str = "Assignments:[";
-        if (mCliqueSize < V/3) return "No "+(V/3)+"-clique; no solution";
-        for (int i = 0; i < Values.size(); i++) {
-            if (mClique.contains(i)) str+=("A"+(i)+"=T ");
-            else str+="A"+(i)+"=F ";
-        }
-        str+="]";
-        return str;
-    }
 
     /*
     Reads the graph from file and makes a 2d array. also tracks number of vertices and number of edges

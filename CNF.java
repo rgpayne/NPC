@@ -135,9 +135,27 @@ public class CNF
             long start = System.currentTimeMillis();
             gr.findLargestClique();
             mCliqueSpeed = System.currentTimeMillis()-start;
+            // generate a boolean array to show which variables need to be true
+            boolean [] table = truthArray(gr);
+
             System.out.println("3-CNF No."+(c++)+": [n="+gr.N+" k="+gr.V/3+"]");
-            System.out.print(gr.CNFtoString());
-            System.out.println(" ("+mCliqueSpeed+"ms) \n\n");
+            int i = 0;
+            if(gr.mCliqueSize != gr.V/3)
+            {
+                // Problem is not solvable
+                System.out.println("No "+gr.V/3+"-clique; no solution"+"("+mCliqueSpeed+"ms) mclique="+gr.mCliqueSize+"\n\n");// No solution record
+            }
+            else
+            {
+                // Problem is solvable, followed are the T/F assignments
+                System.out.print("Assignments: [");// solutions
+                while(i < gr.N)
+                {
+                    System.out.print("A"+(i+1)+"="+table[i]+" ");
+                    i++;
+                }
+                    System.out.print("]"+"("+mCliqueSpeed+"ms) \n\n");
+                }
         }
     }
 }
