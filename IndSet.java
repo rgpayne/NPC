@@ -56,7 +56,7 @@ public class IndSet
 
         int c = 1;
         System.out.println("* Max Independent Sets in graphs in graphs.txt\n");
-        System.out.println("\n\t(|V|,|E|) Independent Set(size, ms used\n");
+        System.out.println("\n\t(|V|,|E|) Independent Set(size, ms used)\n");
         
         for (Graph gr: col) 
         {

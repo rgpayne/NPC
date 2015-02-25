@@ -4,10 +4,10 @@ import java.util.*;
 
 /**
  * Ross Payne
- * 2-7-2015
+ * 2-25-2015
  *
- * Reads in a graph from a file. Stores into a 2D array and finds the max clique for that graph using
- * the recursive backtracking
+ * Reads in a graph from a file. Stores into a 2D array and finds the max clique
+ * for that graph using recursive backtracking
  */
 public class Graph {
     protected int E; //number of edges
@@ -24,16 +24,12 @@ public class Graph {
     /*
     Creates a graph from an adjacency matrix. Assumes the passed in adjacency matrix is valid but counts edges, vertices, etc.
      */
-
-
-    //UNTESTED
     Graph(boolean[][] matrix) {
         this.G = matrix;
         V = matrix.length;
 
         int e = 0;
 
-        //counting number of edges. could be improved to only need to scan half the graph
         for (int i = 0; i < matrix.length; i ++) {
             for (int j = 0; j < matrix.length; j++) {
                 if (G[i][j]) e++;
@@ -43,6 +39,14 @@ public class Graph {
     }
 
     public static final void main(String[] args ) {
+        //findCliques();
+        //IndSet.main(null);
+        CNF.main(null);
+    }
+
+    /* loads graphsDense from file, builds graphs and outputs the max clique data for each graph */
+    public static void findCliques() {
+
         File graphs = new File("graphsDense.txt");
         ArrayList<Graph> col = new ArrayList<Graph>(); //for holding the graphs after we make them
         try {
@@ -62,9 +66,10 @@ public class Graph {
 
         //finding the cliques and printing
         int c = 1;
-        for (Graph gr: col) {
+        for (Graph gr : col) {
             gr.findLargestClique();
-            System.out.println("G"+(c++)+" "+gr.toString());
+            System.out.println("G" + (c++) + " " + gr.toString());
+
         }
     }
 
@@ -73,10 +78,14 @@ public class Graph {
         for (int i = 0; i < G.length; i++) {
             System.out.println();
             for (int j = 0; j < G.length; j++) {
-                System.out.print(G[i][j]);
+                System.out.print(boolToInt(G[i][j]));
             }
         }
         System.out.println();
+    }
+    /* for printing graphs */
+    private int boolToInt(boolean b) {
+        return Boolean.compare(b, false);
     }
 
     /*
@@ -86,6 +95,18 @@ public class Graph {
     public String toString() {
         String mc = mClique.toString().replace('[','{').replace(']','}');
         return "("+V+","+E+") "+ mc +" (size="+mCliqueSize+", "+mCliqueSpeed+" ms)";
+    }
+
+    /* for printing the CNF info */
+    public String CNFtoString() {
+        String str = "Assignments:[";
+        if (mCliqueSize < V/3) return "No "+(V/3)+"-clique; no solution";
+        for (int i = 0; i < Values.size(); i++) {
+            if (mClique.contains(i)) str+=("A"+(i)+"=T ");
+            else str+="A"+(i)+"=F ";
+        }
+        str+="]";
+        return str;
     }
 
     /*
@@ -111,10 +132,10 @@ public class Graph {
 
     /* kicks off and times the recursion for the overloaded findLargestClique method */
     void findLargestClique() {
-        Set<Integer> empty = new HashSet();
-        Set<Integer> allNodes = new HashSet();
+        Set<Integer> empty = new TreeSet();
+        Set<Integer> allNodes = new TreeSet();
 
-        mClique = new HashSet<Integer>();
+        mClique = new TreeSet<Integer>();
         mClique.add(0);
         for (int i = 0; i < G.length; i++) {
             allNodes.add(i);
@@ -145,14 +166,14 @@ public class Graph {
             Integer vertex = iter.next();
 
             /* add vertex to current set */
-            Set<Integer> newCurrent = new HashSet(current);
+            Set<Integer> newCurrent = new TreeSet(current);
             newCurrent.add(vertex);
 
             /* the neighbors of the vertex */
             Set<Integer> n = findNeighbors(vertex);
 
             /* Intersect candidate nodes and neighbors of vertex */
-            Set<Integer> candidateNeighbors = new HashSet(candidates);
+            Set<Integer> candidateNeighbors = new TreeSet(candidates);
             candidateNeighbors.retainAll(n);
 
             /* Call recursively */
@@ -167,7 +188,7 @@ public class Graph {
     Returns the set of vertices connected to vertex
      */
     Set<Integer> findNeighbors(int vertex) {
-        Set <Integer> r = new HashSet<Integer>();
+        Set <Integer> r = new TreeSet<Integer>();
         for (int i = 0; i < G.length; i++ ) {
             if (G[vertex][i] && vertex != i) {
                 r.add(i);

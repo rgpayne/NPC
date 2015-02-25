@@ -20,16 +20,16 @@ import java.util.Scanner;
 public class CNF 
 {
     /**
-     * The data is inputed.  The first number is the different number of variables
-     * used in the equation, and then followed by all the verticies.
+     * The data is input.  The first number is the different number of variables
+     * used in the equation, and then followed by all the vertices.
      * @param s is the line of data entered in
      * @return  a graph with the new matrix.
      */
     static Graph createGraph(String s)
     {
-        Scanner data =  new Scanner(s);
+        Scanner data = new Scanner(s);
         int t, var;
-        ArrayList<Integer> values = new ArrayList<>();
+        ArrayList<Integer> values = new ArrayList<Integer>();
         var = data.nextInt();
         if(var == 0) 
         {
@@ -54,11 +54,11 @@ public class CNF
                 {
                     myMatrix[i][j]=myMatrix[j][i] = FALSE;
                 }
-                else if(i % 3 == 1 && j < i+3)
+                else if(i % 3 == 1 && j < i+2)
                 {
                     myMatrix[i][j]=myMatrix[j][i] = FALSE;
                 }
-                else if(values.get(i)-values.get(j) == 0)
+                else if(values.get(i)+values.get(j) == 0)
                 {
                      myMatrix[i][j]=myMatrix[j][i]=FALSE;   
                 }
@@ -90,16 +90,15 @@ public class CNF
             temp[i] = FALSE;
         }
         
-        Iterator iter = gr.mClique.iterator();
+        Iterator<Integer> iter = gr.mClique.iterator();
         while (iter.hasNext()) 
         {
-            value = (int) iter.next();
+            value = iter.next();
             if(gr.Values.get(value) > 0)
             {
                 temp[gr.Values.get(value)-1] = TRUE;
             }
         }
-        
         return temp;
     }
     
@@ -111,11 +110,9 @@ public class CNF
         {
             String ln;
             Scanner s = new Scanner(graphs);
-            Scanner sc;
             Graph c;
             while (s.hasNextLine()) 
             {
-                c = new Graph();
                 ln = s.nextLine();
                 c = createGraph(ln);
 
@@ -138,27 +135,9 @@ public class CNF
             long start = System.currentTimeMillis();
             gr.findLargestClique();
             mCliqueSpeed = System.currentTimeMillis()-start;
-            // generate a boolean array to show which variables need to be true
-            boolean [] table = truthArray(gr);
-        
             System.out.println("3-CNF No."+(c++)+": [n="+gr.N+" k="+gr.V/3+"]");
-            int i = 0;
-            if(gr.mCliqueSize != gr.V/3)
-            {
-                // Problem is not solvable
-                System.out.println("No "+gr.V/3+"-clique; no solution"+"("+mCliqueSpeed+"ms) "+gr.mCliqueSize+"\n\n");// No solution record
-            }
-            else
-            {
-                // Problem is solvable, followed are the T/F assignments
-                System.out.print("Assignments: [");// solutions
-                while(i < gr.N)
-                {
-                    System.out.print("A"+(i+1)+"="+table[i]+" ");
-                    i++;
-                }
-                System.out.print("]"+"("+mCliqueSpeed+"ms) \n\n");
-            }
+            System.out.print(gr.CNFtoString());
+            System.out.print(" ("+mCliqueSpeed+"ms) \n\n");
         }
     }
 }
