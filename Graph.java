@@ -10,12 +10,14 @@ import java.util.*;
  * the recursive backtracking
  */
 public class Graph {
-    private int E; //number of edges
-    private int V; //number of vertices
-    private boolean[][] G; //the graph itself
-    private int mCliqueSize; //size of the max clique
-    private Set<Integer> mClique; //the max clique itself
+    protected int E; //number of edges
+    protected int V; //number of vertices
+    protected boolean[][] G; //the graph itself
+    protected int mCliqueSize; //size of the max clique
+    protected Set<Integer> mClique; //the max clique itself
     private long mCliqueSpeed; //how long it took to find the max clique
+    protected int N;  //number of different variables
+    protected ArrayList<Integer> Values;
 
     Graph() {}
 
