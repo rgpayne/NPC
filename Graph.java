@@ -39,8 +39,8 @@ public class Graph {
     }
 
     public static final void main(String[] args ) {
-        //findCliques();
-        //IndSet.main(null);
+        findCliques();
+        IndSet.main(null);
         CNF.main(null);
     }
 
