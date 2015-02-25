@@ -137,7 +137,7 @@ public class CNF
             mCliqueSpeed = System.currentTimeMillis()-start;
             System.out.println("3-CNF No."+(c++)+": [n="+gr.N+" k="+gr.V/3+"]");
             System.out.print(gr.CNFtoString());
-            System.out.print(" ("+mCliqueSpeed+"ms) \n\n");
+            System.out.println(" ("+mCliqueSpeed+"ms) \n\n");
         }
     }
 }
